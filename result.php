@@ -67,56 +67,57 @@ if(!$res){
 //echo getcwd().'<br>'; //===================================
 
 
-$tx = $_GET['tx'];
-$ID = $_GET['cm'];
-$currency = $_GET['cc'];
-$identity = 'H7S4_sR4mkG8n_A8Uvc0E3ePi-JmEm36F7nXB3AgKNejr5BYzZZKmGqwyUK';
+// $tx = $_GET['tx'];
+// $ID = $_GET['cm'];
+// $currency = $_GET['cc'];
+// $identity = 'H7S4_sR4mkG8n_A8Uvc0E3ePi-JmEm36F7nXB3AgKNejr5BYzZZKmGqwyUK';
 
-/* Use the full path to your own cacert.pem, download from the interwebs if you do not have a copy */
-//$cacert = 'c:/wwwroot/cacert.pem';
-$cacert = getcwd().'cacert.pem';
+// /* Use the full path to your own cacert.pem, download from the interwebs if you do not have a copy */
+// $cacert = 'c:/wwwroot/cacert.pem';
+// $cacert = getcwd().'cacert.pem';
 
-$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-$fields = array(    
-    'cmd'   => '_notify-synch',
-    'tx'    => $tx,
-    'at'    => $identity,
-);
+// $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+// $fields = array(    
+    // 'cmd'   => '_notify-synch',
+    // 'tx'    => $tx,
+    // 'at'    => $identity,
+// );
 
-$request = curl_init();
-curl_setopt($request,CURLOPT_URL, $url);
+// $request = curl_init();
+// curl_setopt($request,CURLOPT_URL, $url);
 
-if( parse_url( $url,PHP_URL_SCHEME )=='https' ){
-    curl_setopt( $request, CURLOPT_SSL_VERIFYPEER, FALSE ); /* set to true once you get this working */
-    curl_setopt( $request, CURLOPT_SSL_VERIFYHOST, 2 );
-    curl_setopt( $request, CURLOPT_CAINFO, realpath( $cacert ) );
-}
-
-
-/* this should be true or false not count($fields): in this case true*/
-/*curl_setopt($request,CURLOPT_POST, count( $fields ) );*/
-curl_setopt($request,CURLOPT_POST, true );
-curl_setopt($request,CURLOPT_POSTFIELDS, http_build_query( $fields ) );
-curl_setopt($request,CURLOPT_RETURNTRANSFER, TRUE);
-curl_setopt($request,CURLOPT_HEADER, FALSE);
-
-/* Quite often requests get rejected for no useragent */
-curl_setopt($request,CURLOPT_USERAGENT, 'paypal-mozilla-chrome-useragent' );
-curl_setopt($request, CURLINFO_HEADER_OUT, TRUE );
+// if( parse_url( $url,PHP_URL_SCHEME )=='https' ){
+    // curl_setopt( $request, CURLOPT_SSL_VERIFYPEER, FALSE ); /* set to true once you get this working */
+    // curl_setopt( $request, CURLOPT_SSL_VERIFYHOST, 2 );
+    // curl_setopt( $request, CURLOPT_CAINFO, realpath( $cacert ) );
+// }
 
 
-$response = curl_exec($request);
-$status   = curl_getinfo($request, CURLINFO_HTTP_CODE);
+// /* this should be true or false not count($fields): in this case true*/
+// /*curl_setopt($request,CURLOPT_POST, count( $fields ) );*/
+// curl_setopt($request,CURLOPT_POST, true );
+// curl_setopt($request,CURLOPT_POSTFIELDS, http_build_query( $fields ) );
+// curl_setopt($request,CURLOPT_RETURNTRANSFER, TRUE);
+// curl_setopt($request,CURLOPT_HEADER, FALSE);
 
-curl_close($request);
-/* See what the curl request has retrieved */
-echo '<pre>',print_r( $response, true ),$status,'</pre>';
+// /* Quite often requests get rejected for no useragent */
+// curl_setopt($request,CURLOPT_USERAGENT, 'paypal-mozilla-chrome-useragent' );
+// curl_setopt($request, CURLINFO_HEADER_OUT, TRUE );
+
+
+// $response = curl_exec($request);
+// $status   = curl_getinfo($request, CURLINFO_HTTP_CODE);
+
+// curl_close($request);
+// /* See what the curl request has retrieved */
+// echo '<pre>',print_r( $response, true ),$status,'</pre>';
 // ==============================================================================
 
-/*
+
 // Init cURL
 $request = curl_init();
-
+$auth_token = 'H7S4_sR4mkG8n_A8Uvc0E3ePi-JmEm36F7nXB3AgKNejr5BYzZZKmGqwyUK';
+$tx_token = $_GET['tx'];
 // Set request options
 curl_setopt_array($request, array(
   CURLOPT_URL => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
@@ -130,11 +131,11 @@ curl_setopt_array($request, array(
   CURLOPT_RETURNTRANSFER => TRUE,
   CURLOPT_HEADER => FALSE,
   // Other options...
-  CURLOPT_SSL_VERIFYPEER => TRUE, // Verify peers
-  CURLOPT_CAINFO => getcwd() . 'cacert.pem', // Path to file with certificates
+  // CURLOPT_SSL_VERIFYPEER => TRUE, // Verify peers
+  // CURLOPT_CAINFO => getcwd() . 'cacert.pem', // Path to file with certificates
   // From paypal github code
-  CURLOPT_SSL_VERIFYHOST => 2,
-  CURLOPT_HTTPHEADER => array("Host: www.sandbox.paypal.com"),
+  // CURLOPT_SSL_VERIFYHOST => 2,
+  // CURLOPT_HTTPHEADER => array("Host: www.sandbox.paypal.com"),
 ));
 
 // Execute request and get response and status code
@@ -176,7 +177,7 @@ if($status == 200 AND strpos($res, 'SUCCESS') === 0)
 else
 {
     echo 'error';
-}*/
+}
  
 ?>
 
